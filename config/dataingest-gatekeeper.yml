@@ -1,0 +1,32 @@
+version: "1.0"
+
+edge-feed:
+  cloud-rabbitmq:
+    mode: "messaging"
+    protocol: "amqp"
+    host: "monmgr"
+    port: "5672"
+    user: "cloud-user"
+    password: "cloud-user"
+    queue: "edge-feed"
+
+remote-commander:
+  main:
+    mode: "messaging"
+    protocol: "amqp"
+    host: "monmgr"
+    port: "5672"
+    user: "edge-user"
+    password: "edge-user"
+    channel: "cmdr"
+
+monitoring-manager:
+  main:
+    mode: "messaging"
+    protocol: "amqp"
+    host: "monmgr"
+    port: "5672"
+    user: "cloud-user"
+    password: "cloud-user"
+    channel: "system-stats"
+
