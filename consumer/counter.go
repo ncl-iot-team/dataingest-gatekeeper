@@ -1,8 +1,10 @@
 package consumer
 
 import (
-	"log"
+	"fmt"
 	"time"
+
+	"github.com/spf13/viper"
 )
 
 //var count int64
@@ -11,25 +13,16 @@ import (
 func NewRateCounter(window time.Duration, countChannel chan bool) {
 
 	var count int64
-	tick := make(chan bool)
-
+	deviceid := viper.GetString("device.id")
 	// Function generates ticks at the end of the configured window
 	go func() {
 		for {
 			time.Sleep(window)
-			tick <- true
-		}
-	}()
-
-	// Fucntion records the count when a tick signal is received
-	go func() {
-		for range tick {
-			recordCount(window, &count)
+			recordCount(window, &count, deviceid)
 		}
 	}()
 
 	for range countChannel {
-
 		count++
 	}
 
@@ -40,8 +33,9 @@ func NewRateCounter(window time.Duration, countChannel chan bool) {
 //	count
 //}
 
-func recordCount(window time.Duration, count *int64) {
-	log.Printf("Count: %d", *count)
+func recordCount(window time.Duration, count *int64, deviceid string) {
+	//	log.Printf("Receive Count: %d", *count)
+	fmt.Printf("%s | %s Receive Count: %d\n", time.Now().Format(time.RFC3339), deviceid, *count)
 	*count = 0
 
 }

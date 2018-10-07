@@ -1,5 +1,9 @@
 version: "1.0"
 
+device:
+  id: "C1"
+  name: "T2.MICRO"
+
 edge-feed:
   cloud-rabbitmq:
     mode: "messaging"
