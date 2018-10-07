@@ -1,7 +1,7 @@
 package consumer
 
 import (
-	"log"
+	"fmt"
 	"sync"
 	"time"
 
@@ -13,7 +13,7 @@ var wg = sync.WaitGroup{}
 // RunConsumer reads data from the queue
 func RunConsumer() {
 
-	log.Printf("Running Consumer...")
+	fmt.Println("Running Consumer...")
 	var amqpConnDetails AMQPConnDetailsType
 
 	amqpConnDetails.host = viper.GetString("edge-feed.cloud-rabbitmq.host")
