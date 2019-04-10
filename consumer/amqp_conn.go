@@ -23,7 +23,7 @@ func failOnError(err error, msg string) {
 }
 
 //NewConsumer creates a consumer and returns the delivery channel
-func NewConsumer(amqpConnDetails AMQPConnDetailsType, deliveries chan string) {
+func NewConsumer(amqpConnDetails AMQPConnDetailsType, deliveries *chan string) {
 
 	connStr := fmt.Sprintf("amqp://%s:%s@%s:%s", amqpConnDetails.user, amqpConnDetails.password, amqpConnDetails.host, amqpConnDetails.port)
 	log.Printf("Connection String: %s", connStr)
@@ -49,7 +49,7 @@ func NewConsumer(amqpConnDetails AMQPConnDetailsType, deliveries chan string) {
 	forever := make(chan bool)
 
 	for d := range msgs {
-		deliveries <- string(d.Body)
+		*deliveries <- string(d.Body)
 	}
 
 	//	deliveries <- msgs

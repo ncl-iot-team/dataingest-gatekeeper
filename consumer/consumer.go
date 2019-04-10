@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	RATECOUNTER "github.com/paulbellamy/ratecounter"
 	"github.com/spf13/viper"
 )
 
@@ -22,26 +23,39 @@ func RunConsumer() {
 	amqpConnDetails.password = viper.GetString("edge-feed.cloud-rabbitmq.password")
 	amqpConnDetails.queue = viper.GetString("edge-feed.cloud-rabbitmq.queue")
 
-	deliveries := make(chan string)
+	clientid := viper.GetString("device.id")
+	deliveries := make(chan string, 409600)
+	dataRateReadSeconds := viper.GetInt64("edge-feed.cloud-rabbitmq.dataratereadseconds")
+
+	counter := RATECOUNTER.NewRateCounter(1 * time.Second)
 
 	wg.Add(1)
 
-	go NewConsumer(amqpConnDetails, deliveries)
+	go NewConsumer(amqpConnDetails, &deliveries)
 
-	go handleDeliveries(deliveries)
+	go handleDeliveries(&deliveries, counter)
+
+	//Go routine to print out data sending rate
+	go func() {
+		for {
+			fmt.Printf("%s | Data receive rate at '%s' : %d \t records/sec\n", time.Now().Format(time.RFC3339), clientid, counter.Rate())
+			time.Sleep(time.Second * time.Duration(dataRateReadSeconds))
+		}
+	}()
 
 	wg.Wait()
 
 }
 
-func handleDeliveries(deliveries chan string) {
-	doCount := make(chan bool)
-	go NewRateCounter(time.Second*10, doCount)
-	for range deliveries {
+func handleDeliveries(deliveries *chan string, counter *RATECOUNTER.RateCounter) {
+	//	doCount := make(chan bool)
+	//	go NewRateCounter(time.Second*10, doCount)
+	for range *deliveries {
 		//log.Printf("Received message: %s", msg)
 		//	increment()
 		//log.Printf("Incementing Counter: %s", msg)
-		doCount <- true
+		//		doCount <- true
+		counter.Incr(1)
 	}
 
 }

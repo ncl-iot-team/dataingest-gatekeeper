@@ -8,29 +8,30 @@ edge-feed:
   cloud-rabbitmq:
     mode: "messaging"
     protocol: "amqp"
-    host: "monmgr"
+    host: "mqserver-01.technipun.com"
     port: "5672"
-    user: "cloud-user"
-    password: "cloud-user"
-    queue: "edge-feed"
+    user: "edge-user"
+    password: "M4cQJb8eB6FP"
+    queue: "data"
+    dataratereadseconds: 10
 
 remote-commander:
   main:
     mode: "messaging"
     protocol: "amqp"
-    host: "monmgr"
+    host: "mqserver-01.technipun.com"
     port: "5672"
     user: "edge-user"
-    password: "edge-user"
-    channel: "cmdr"
+    password: "M4cQJb8eB6FP"
+    channel: "command-e1"
 
 monitoring-manager:
   main:
     mode: "messaging"
     protocol: "amqp"
-    host: "monmgr"
+    host: "mqserver-01.technipun.com"
     port: "5672"
-    user: "cloud-user"
-    password: "cloud-user"
-    channel: "system-stats"
+    user: "edge-user"
+    password: "M4cQJb8eB6FP"
+    channel: "system-stats-e1"
 
