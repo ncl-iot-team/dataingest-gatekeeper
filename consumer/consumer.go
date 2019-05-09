@@ -38,7 +38,7 @@ func RunConsumer() {
 	//Go routine to print out data sending rate
 	go func() {
 		for {
-			fmt.Printf("%s | Data receive rate at '%s' : %d \t records/sec\n", time.Now().Format(time.RFC3339), clientid, counter.Rate())
+			fmt.Printf("%d | Data receive rate at '%s' : %d \t records/sec\n", time.Now().UnixNano(), clientid, counter.Rate())
 			time.Sleep(time.Second * time.Duration(dataRateReadSeconds))
 		}
 	}()
