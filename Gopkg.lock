@@ -61,6 +61,14 @@
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:7233f2b1f864831a729ca0d48e84081ac8b4ce040a5aad3b394c421a7a0405cb"
+  name = "github.com/paulbellamy/ratecounter"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "524851a93235ac051e3540563ed7909357fe24ab"
+  version = "v0.2.0"
+
+[[projects]]
   digest = "1:95741de3af260a92cc5c7f3f3061e85273f5a81b5db20d4bd68da74bd521675e"
   name = "github.com/pelletier/go-toml"
   packages = ["."]
@@ -164,6 +172,7 @@
   input-imports = [
     "github.com/fsnotify/fsnotify",
     "github.com/mitchellh/go-homedir",
+    "github.com/paulbellamy/ratecounter",
     "github.com/spf13/cobra",
     "github.com/spf13/viper",
     "github.com/streadway/amqp",
