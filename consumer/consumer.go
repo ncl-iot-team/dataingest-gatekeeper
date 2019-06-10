@@ -50,11 +50,12 @@ func RunConsumer() {
 func handleDeliveries(deliveries *chan string, counter *RATECOUNTER.RateCounter) {
 	//	doCount := make(chan bool)
 	//	go NewRateCounter(time.Second*10, doCount)
-	for range *deliveries {
+	for msg := range *deliveries {
 		//log.Printf("Received message: %s", msg)
 		//	increment()
 		//log.Printf("Incementing Counter: %s", msg)
 		//		doCount <- true
+		fmt.Printf("%d,%s\n", time.Now().UnixNano(), msg)
 		counter.Incr(1)
 	}
 
